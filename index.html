@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RRB NTPC CBT-1 Result Checker</title>
+  <meta name="description" content="Check your RRB NTPC CBT-1 recruitment result online. Enter your details and roll number to check qualification status.">
+  <link rel="stylesheet" href="index.css">
+  <!-- FontAwesome Icons for clean presentation -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="widget-wrapper" id="widget-container">
+    <!-- Blurs for visual glow effects behind the glass -->
+    <div class="glow-blob blob-1"></div>
+    <div class="glow-blob blob-2"></div>
+    
+    <!-- Canvas for confetti explosions -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="glass-card">
+      
+      <!-- VIEW 1: CHECK FORM -->
+      <div id="view-form" class="view-state active">
+        <div class="widget-header">
+          <div class="widget-logo">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <h1 class="widget-title">RRB NTPC Result Checker</h1>
+          <p class="widget-subtitle">Check your CBT-1 Qualification Status</p>
+        </div>
+
+        <form id="result-checker-form" novalidate>
+          
+          <!-- Name Input -->
+          <div class="form-group">
+            <label for="input-name" class="form-label">Full Name</label>
+            <div class="input-wrapper">
+              <span class="input-icon"><i class="fa-regular fa-user"></i></span>
+              <input type="text" id="input-name" class="form-control" placeholder="Enter your full name" required autocomplete="name">
+            </div>
+            <div class="validation-error" id="error-name">
+              <i class="fa-solid fa-circle-exclamation"></i> Please enter your name.
+            </div>
+          </div>
+
+          <!-- Mobile Number Input -->
+          <div class="form-group">
+            <label for="input-mobile" class="form-label">Mobile Number</label>
+            <div class="input-wrapper">
+              <span class="input-icon"><i class="fa-solid fa-phone"></i></span>
+              <input type="tel" id="input-mobile" class="form-control" placeholder="10-digit mobile number" required autocomplete="tel" maxlength="10">
+            </div>
+            <div class="validation-error" id="error-mobile">
+              <i class="fa-solid fa-circle-exclamation"></i> Please enter a valid 10-digit mobile number.
+            </div>
+          </div>
+
+          <!-- Zone Select Dropdown -->
+          <div class="form-group">
+            <label for="select-zone" class="form-label">Applied RRB Zone</label>
+            <div class="input-wrapper">
+              <span class="input-icon"><i class="fa-solid fa-map-location-dot"></i></span>
+              <select id="select-zone" class="form-control" required>
+                <option value="" disabled selected>Select your RRB zone</option>
+                <option value="Ahmedabad">Ahmedabad</option>
+                <option value="Ajmer">Ajmer</option>
+                <option value="Allahabad">Allahabad</option>
+                <option value="Banglore">Banglore</option>
+                <option value="Bhopal">Bhopal</option>
+                <option value="Bilaspur">Bilaspur</option>
+                <option value="Chandigarh">Chandigarh</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Guwahati">Guwahati</option>
+                <option value="Ranchi">Ranchi</option>
+                <option value="Silguri">Silguri</option>
+              </select>
+              <span class="select-arrow"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <div class="validation-error" id="error-zone">
+              <i class="fa-solid fa-circle-exclamation"></i> Please select your RRB Zone.
+            </div>
+          </div>
+
+          <!-- Roll Number Input -->
+          <div class="form-group">
+            <label for="input-roll" class="form-label">16-Digit Roll Number</label>
+            <div class="input-wrapper">
+              <span class="input-icon"><i class="fa-regular fa-id-card"></i></span>
+              <input type="text" id="input-roll" class="form-control" placeholder="Enter your 16-digit roll number" required maxlength="16">
+            </div>
+            <div class="validation-error" id="error-roll">
+              <i class="fa-solid fa-circle-exclamation"></i> Please enter a valid 16-digit roll number.
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="btn-submit" class="btn-primary">
+            <span>Check Qualification Status</span>
+            <div class="spinner" id="btn-spinner"></div>
+          </button>
+        </form>
+      </div>
+
+      <!-- VIEW 2: CONGRATULATIONS SCREEN (QUALIFIED) -->
+      <div id="view-success" class="view-state">
+        <div class="result-screen">
+          <div class="result-icon-container success-container">
+            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+              <circle class="checkmark-circle" cx="26" cy="26" r="25" />
+              <path class="checkmark-check" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+            </svg>
+          </div>
+          
+          <div class="result-badge badge-success">Qualified</div>
+          <h2 class="result-title title-success">Congratulations!</h2>
+          <p class="result-message" id="success-msg">
+            Dear <strong id="success-candidate-name">Candidate</strong>, you have successfully qualified for the next stage of the RRB NTPC selection process!
+          </p>
+
+          <div class="candidate-summary">
+            <div class="summary-row">
+              <span class="summary-label">Roll Number:</span>
+              <span class="summary-value" id="success-roll-no">0000000000000000</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Zone:</span>
+              <span class="summary-value" id="success-zone-name">Ahmedabad</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Status:</span>
+              <span class="summary-value" style="color: var(--success); font-weight: 600;">SHORTLISTED</span>
+            </div>
+          </div>
+
+          <button id="btn-success-reset" class="btn-secondary">Check Another Roll Number</button>
+        </div>
+      </div>
+
+      <!-- VIEW 3: NOT QUALIFIED SCREEN -->
+      <div id="view-error" class="view-state">
+        <div class="result-screen">
+          <div class="result-icon-container error-container">
+            <svg class="cross-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+              <path class="cross-line1" d="M16 16l20 20" />
+              <path class="cross-line2" d="M36 16L16 36" />
+            </svg>
+          </div>
+          
+          <div class="result-badge badge-error">Not Shortlisted</div>
+          <h2 class="result-title title-error">Keep Trying!</h2>
+          <p class="result-message" id="error-msg">
+            Dear <strong id="error-candidate-name">Candidate</strong>, your roll number was not found in the list of qualified candidates for this zone. Keep working hard, your efforts will pay off!
+          </p>
+
+          <div class="candidate-summary">
+            <div class="summary-row">
+              <span class="summary-label">Roll Number:</span>
+              <span class="summary-value" id="error-roll-no">0000000000000000</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Zone:</span>
+              <span class="summary-value" id="error-zone-name">Ahmedabad</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Status:</span>
+              <span class="summary-value" style="color: var(--error); font-weight: 600;">NOT QUALIFIED</span>
+            </div>
+          </div>
+
+          <button id="btn-error-reset" class="btn-secondary">Go Back & Try Again</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Loading canvas-confetti library from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <!-- Application Script -->
+  <script src="app.js"></script>
+</body>
+</html>
