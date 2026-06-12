@@ -180,7 +180,7 @@ async function logToGoogleSheet(name, mobile, zone, roll, status) {
       mode: "no-cors",
       cache: "no-cache",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "text/plain"
       },
       body: JSON.stringify(payload)
     });
